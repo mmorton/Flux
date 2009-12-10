@@ -36,6 +36,12 @@ namespace WickedNite.Flux
 
             foreach (var method in type.GetMethods(BindingFlags.Instance | BindingFlags.Public))
             {
+				// filter out disposable
+                if (typeof(IDisposable).IsAssignableFrom(type) && method.Name == "Dispose") continue;
+
+                // filter out property accessors
+                if (method.IsSpecialName) continue;
+				
                 var attributes = type.GetCustomAttributes(typeof(ActionAttribute), false)
                     .OfType<ActionAttribute>()
                     .ToList();             
