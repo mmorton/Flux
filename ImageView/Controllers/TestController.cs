@@ -10,6 +10,9 @@ namespace ImageView.Controllers
 {
     public class TestController : Controller<TestView, TestPropertyBag>
     {
-
+        public void Go()
+        {
+            PropertyBag.Name = "Gone!";
+        }
     }
 }

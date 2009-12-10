@@ -6,6 +6,7 @@ using System.Windows.Markup;
 using System.Windows.Input;
 using System.Windows;
 using Microsoft.Practices.ServiceLocation;
+using System.ComponentModel;
 
 namespace WickedNite.Flux
 {
@@ -38,6 +39,8 @@ namespace WickedNite.Flux
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return null;
+
             var locator = ServiceLocator.Current;
             if (locator == null) return null;
 

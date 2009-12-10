@@ -26,6 +26,8 @@ namespace ImageView.Views
         public TestView()
         {
             InitializeComponent();
+
+            Loaded += (s, e) => DataContext = PropertyBag;
         }
     }
 }
