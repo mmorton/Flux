@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.ComponentModel;
-using System.Collections;
 
 namespace WickedNite.Flux
 {
-    public interface IPropertyBag : INotifyPropertyChanged
+    public interface IControllerLifecycleManager
     {
-        
+        void Release(IController controller);
     }
 }

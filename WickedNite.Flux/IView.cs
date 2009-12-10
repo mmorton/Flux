@@ -6,7 +6,7 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows;
 
-namespace WickedNite.Commons.MuRail
+namespace WickedNite.Flux
 {    
     public interface IView
     {

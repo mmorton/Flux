@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
-namespace WickedNite.Commons.MuRail
+namespace WickedNite.Flux
 {
     public interface ICommandProvider
     {

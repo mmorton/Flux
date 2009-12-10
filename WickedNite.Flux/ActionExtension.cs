@@ -6,9 +6,8 @@ using System.Windows.Markup;
 using System.Windows.Input;
 using System.Windows;
 using Microsoft.Practices.ServiceLocation;
-using Castle.Windsor;
 
-namespace WickedNite.Commons.MuRail
+namespace WickedNite.Flux
 {
     [MarkupExtensionReturnType(typeof(ICommand))]
     public class ActionExtension : MarkupExtension
@@ -22,8 +21,9 @@ namespace WickedNite.Commons.MuRail
             Name = name;
         }
 
-        /*
+        
         // commented out due to bug with Visual Studio 2008 (see: http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=369812)
+        /*
         public ActionExtension(Type target)
         {
             Target = target;
@@ -38,15 +38,15 @@ namespace WickedNite.Commons.MuRail
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            var accessor = Application.Current as IContainerAccessor;
-            if (accessor == null) return null;
+            var locator = ServiceLocator.Current;
+            if (locator == null) return null;
 
-            var commandProvider = accessor.Container.Resolve<ICommandProvider>();
-            if (commandProvider == null) return null;
+            var provider = locator.GetInstance<ICommandProvider>();
+            if (provider == null) return null;
 
             return Target != null
-                ? commandProvider.GetCommand(Name, Target)
-                : commandProvider.GetCommand(Name);
+                ? provider.GetCommand(Name, Target)
+                : provider.GetCommand(Name);
         }
     }
 }

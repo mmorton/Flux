@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.ComponentModel;
-using System.Collections;
+using System.Reflection;
 
 namespace WickedNite.Flux
 {
-    public interface IPropertyBag : INotifyPropertyChanged
+    public interface IAutoRegistration
     {
-        
+        void From(params Assembly[] assemblies);        
     }
 }

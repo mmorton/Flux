@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WickedNite.Flux", "WickedNite.Flux\WickedNite.Flux.csproj", "{9D4CE8DE-8C3C-4CD8-B416-93275520B9AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WickedNite.Flux.Windsor", "WickedNite.Flux.Windsor\WickedNite.Flux.Windsor.csproj", "{27653FA5-6B21-4A29-B2B9-2D321FDCB72E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{DF696CC3-0BB0-434D-A942-3EA2BB32A44B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageView", "ImageView\ImageView.csproj", "{F3F8DE28-4064-4378-8BAC-6A9FE3B58E3F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9D4CE8DE-8C3C-4CD8-B416-93275520B9AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D4CE8DE-8C3C-4CD8-B416-93275520B9AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D4CE8DE-8C3C-4CD8-B416-93275520B9AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D4CE8DE-8C3C-4CD8-B416-93275520B9AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27653FA5-6B21-4A29-B2B9-2D321FDCB72E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27653FA5-6B21-4A29-B2B9-2D321FDCB72E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27653FA5-6B21-4A29-B2B9-2D321FDCB72E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27653FA5-6B21-4A29-B2B9-2D321FDCB72E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3F8DE28-4064-4378-8BAC-6A9FE3B58E3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3F8DE28-4064-4378-8BAC-6A9FE3B58E3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3F8DE28-4064-4378-8BAC-6A9FE3B58E3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3F8DE28-4064-4378-8BAC-6A9FE3B58E3F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F3F8DE28-4064-4378-8BAC-6A9FE3B58E3F} = {DF696CC3-0BB0-434D-A942-3EA2BB32A44B}
+	EndGlobalSection
+EndGlobal

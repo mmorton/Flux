@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Markup;
 using System.Windows;
-using Castle.Windsor;
+using Microsoft.Practices.ServiceLocation;
 
-namespace WickedNite.Commons.MuRail
+namespace WickedNite.Flux
 {
     public class ViewExtension : MarkupExtension
     {
@@ -19,10 +19,10 @@ namespace WickedNite.Commons.MuRail
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            var accessor = Application.Current as IContainerAccessor;
-            if (accessor == null) return null;
+            var locator = ServiceLocator.Current;
+            if (locator == null) return null;
 
-            return accessor.Container.Resolve(Type);
+            return locator.GetInstance(Type);
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Collections;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace WickedNite.Commons.MuRail
+namespace WickedNite.Flux
 {
     public abstract class PropertyBagBase : IPropertyBag
     {

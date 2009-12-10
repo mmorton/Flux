@@ -5,10 +5,8 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Castle.Windsor;
-using Castle.Core;
 
-namespace WickedNite.Commons.MuRail
+namespace WickedNite.Flux
 {
     public abstract class Controller<TView, TPropertyBag> : IController<TView, TPropertyBag>
         where TView : IView<TPropertyBag>

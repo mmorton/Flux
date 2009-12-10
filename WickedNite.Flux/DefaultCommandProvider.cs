@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Input;
 
-namespace WickedNite.Commons.MuRail
+namespace WickedNite.Flux
 {    
     public class DefaultCommandProvider : ICommandProvider
     {
