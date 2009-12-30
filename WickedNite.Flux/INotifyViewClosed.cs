@@ -5,8 +5,8 @@ using System.Text;
 
 namespace WickedNite.Flux
 {
-    public interface INotifyViewReady
+    public interface INotifyViewClosed
     {
-        event ViewEventHandler Ready;
+        event ViewEventHandler Closed;
     }
 }

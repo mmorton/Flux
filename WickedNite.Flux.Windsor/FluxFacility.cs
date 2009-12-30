@@ -25,8 +25,11 @@ namespace WickedNite.Flux.Windsor
             if (Kernel.HasComponent(typeof(ControllerAccessor<,>)) == false)
                 Kernel.Register(Component.For(typeof(ControllerAccessor<,>)).LifeStyle.Singleton);
 
+            if (Kernel.HasComponent<IActionInvoker>() == false)
+                Kernel.Register(Component.For<IActionInvoker>().ImplementedBy<DefaultActionInvoker>().LifeStyle.Singleton);
+
             if (Kernel.HasComponent<ICommandProvider>() == false)
-                Kernel.Register(Component.For<ICommandProvider>().ImplementedBy<DefaultCommandProvider>().LifeStyle.Singleton);
+                Kernel.Register(Component.For<ICommandProvider>().ImplementedBy<DefaultCommandProvider>().LifeStyle.Singleton);            
 
             if (Kernel.HasComponent<IControllerAdapter>() == false)
                 Kernel.Register(Component.For<IControllerAdapter>().ImplementedBy<DefaultControllerAdapter>().LifeStyle.Singleton);

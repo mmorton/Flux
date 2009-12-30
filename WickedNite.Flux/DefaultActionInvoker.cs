@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using System.Reflection;
+using System.ComponentModel;
 
 namespace WickedNite.Flux
 {
@@ -27,7 +29,7 @@ namespace WickedNite.Flux
             return targetDefaultValue;
         }
 
-        public void Invoke(object presenter, MethodInfo method, IDictionary<string, object> properties)
+        public void Invoke(object controller, MethodInfo method, IDictionary<string, object> properties)
         { 
             var parameters = method.GetParameters();
             var args = new object[parameters.Length];
@@ -44,7 +46,7 @@ namespace WickedNite.Flux
                         : null;
             }
 
-            var result = method.Invoke(presenter, args);
+            var result = method.Invoke(controller, args);
         }
     }
 }

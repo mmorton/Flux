@@ -6,18 +6,21 @@ using System.Windows;
 using System.Windows.Input;
 using System.Reflection;
 using System.ComponentModel;
+using System.Windows.Media;
 
 namespace WickedNite.Flux
 {
     public class DefaultControllerAdapter : IControllerAdapter
     {
         public IControllerLifecycleManager LifecycleManager { get; set; }
-        public ICommandProvider CommandProvider { get; set; }        
+        public ICommandProvider CommandProvider { get; set; }
+        public IActionInvoker ActionInvoker { get; set; }
 
-        public DefaultControllerAdapter(IControllerLifecycleManager lifecycleManager, ICommandProvider commandProvider)
+        public DefaultControllerAdapter(IControllerLifecycleManager lifecycleManager, ICommandProvider commandProvider, IActionInvoker actionInvoker)
         {
             LifecycleManager = lifecycleManager;
             CommandProvider = commandProvider;
+            ActionInvoker = actionInvoker;
         }
 
         #region IControllerAdapter Members
@@ -57,8 +60,6 @@ namespace WickedNite.Flux
                             commandByName,
                             CreateActionDelegate(
                                 controller,
-                                view,
-                                commandByName,
                                 method
                             )
                         ));
@@ -67,8 +68,6 @@ namespace WickedNite.Flux
                             commandByType,
                             CreateActionDelegate(
                                 controller,
-                                view,
-                                commandByType,
                                 method
                             )
                         ));
@@ -83,8 +82,6 @@ namespace WickedNite.Flux
                         commandByName,
                         CreateActionDelegate(
                             controller,
-                            view,
-                            commandByName,
                             method
                         )
                     ));
@@ -93,8 +90,6 @@ namespace WickedNite.Flux
                         commandByType,
                         CreateActionDelegate(
                             controller,
-                            view,
-                            commandByType,
                             method
                         )
                     ));
@@ -102,60 +97,83 @@ namespace WickedNite.Flux
             }            
             
             var frameworkEl = view as FrameworkElement;
-            if (frameworkEl != null)
-            {
-                frameworkEl.Loaded += CreateLoadedDelegate(controller);
-                frameworkEl.Unloaded += CreateUnloadedDelegate(controller);
-            }
+            if (frameworkEl != null)            
+                frameworkEl.Loaded += CreateLoadedDelegate(controller);                      
+        }
+
+        private static T AncestorOfType<T>(DependencyObject element) where T : class
+        {
+            while (element != null && (element is T) == false) element = VisualTreeHelper.GetParent(element);
+
+            return element as T;
         }
 
         public RoutedEventHandler CreateLoadedDelegate(IController controller)
         {
-            return delegate(object sender, RoutedEventArgs e)
-            {
-                var notify = controller as INotifyViewReady;
-                if (notify != null)
-                    notify.Ready();
-            };
-        }
-
-        public RoutedEventHandler CreateUnloadedDelegate(IController controller)
-        {
             var manager = LifecycleManager;
-            return delegate(object sender, RoutedEventArgs e)
-            {
-                if (manager != null)
-                    manager.Release(controller);
-            };
-        }
+            var ready = false;            
 
-        public ExecutedRoutedEventHandler CreateActionDelegate(IController controller, IView view, ICommand command, MethodInfo method)
+            return delegate(object sender, RoutedEventArgs args)
+            {
+                if (ready == false)
+                {
+                    var notify = controller as IViewAware;
+
+                    var frameworkEl = sender as FrameworkElement;
+
+                    var container = AncestorOfType<IViewContainer>(frameworkEl);
+                    if (container != null)
+                    {
+                        container.ViewClosed += (s, e) =>
+                        {
+                            // if the closed event is firing for this view
+                            if (e.View == sender)
+                            {
+                                if (notify != null)
+                                    notify.Closed();
+
+                                if (manager != null)
+                                    manager.Release(controller);
+                            }
+                        };
+                    }
+                    else
+                    {                        
+                        var window = AncestorOfType<Window>(frameworkEl);
+                        if (window != null)
+                            window.Closed += (s, e) =>
+                            {
+                                if (notify != null)
+                                    notify.Closed();
+
+                                if (manager != null)
+                                    manager.Release(controller);
+                            };                        
+                    }
+                    
+                    if (notify != null)
+                        notify.Ready();
+
+                    ready = true;
+                }
+            };
+        }     
+
+        public ExecutedRoutedEventHandler CreateActionDelegate(IController controller, MethodInfo method)
         {
+            var invoker = ActionInvoker;
+
             return delegate(object sender, ExecutedRoutedEventArgs e)
             {
-                var parameters = method.GetParameters();
-                if (parameters.Length > 0)
-                {
-                    var values = new object[parameters.Length];
-                    if (e.Parameter != null)
-                    {
-                        var converter = TypeDescriptor.GetConverter(parameters[0].ParameterType);
-                        if (converter != null && converter.CanConvertFrom(e.Parameter.GetType()))
-                            values[0] = converter.ConvertFrom(e.Parameter);
-                        else
-                            values[0] = parameters[0].RawDefaultValue;
-                    }
+                var parameters = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
-                    for (var i = 1; i < parameters.Length; i++)
-                        values[i] = parameters[i].RawDefaultValue;
+                parameters["sender"] = sender;
+                parameters["e"] = e;
+                parameters["parameter"] = e.Parameter;
 
-                    var result = method.Invoke(controller, values);  
-                    // todo: what to do with result?
-                }
-                else
-                    method.Invoke(controller, new object[] { });
+                invoker.Invoke(controller, method, parameters);
             };
-        }
+        }       
 
         #endregion
     }

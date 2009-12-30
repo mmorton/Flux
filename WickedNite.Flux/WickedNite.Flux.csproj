@@ -53,21 +53,28 @@
     <Compile Include="ActionExtension.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="ControllerAccessor.cs" />
+    <Compile Include="DefaultActionInvoker.cs" />
     <Compile Include="DefaultCommandProvider.cs" />
     <Compile Include="DefaultControllerAdapter.cs" />
     <Compile Include="FluxConfiguration.cs" />
     <Compile Include="FluxSectionHandler.cs" />
     <Compile Include="FluxStarter.cs" />
+    <Compile Include="IActionInvoker.cs" />
     <Compile Include="ICommandProvider.cs" />
     <Compile Include="IController.cs" />
     <Compile Include="IControllerAccessor.cs" />
     <Compile Include="IControllerAdapter.cs" />
     <Compile Include="IControllerLifecycleManager.cs" />
     <Compile Include="IModule.cs" />
+    <Compile Include="INotifyViewClosed.cs" />
     <Compile Include="INotifyViewReady.cs" />
     <Compile Include="IPropertyBag.cs" />
     <Compile Include="IView.cs" />
     <Compile Include="IViewAccessor.cs" />
+    <Compile Include="IViewAware.cs" />
+    <Compile Include="IViewClosedAware.cs" />
+    <Compile Include="IViewContainer.cs" />
+    <Compile Include="IViewReadyAware.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyBag.cs" />
@@ -76,6 +83,8 @@
     <Compile Include="AutoRegistrationDiscoveryInfo.cs" />
     <Compile Include="IAutoRegistration.cs" />
     <Compile Include="ViewAccessor.cs" />
+    <Compile Include="ViewEventArgs.cs" />
+    <Compile Include="ViewEventHandler.cs" />
     <Compile Include="ViewExtension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
