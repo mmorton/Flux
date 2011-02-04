@@ -43,10 +43,10 @@ namespace WickedNite.Flux.Windsor
             if (controllerAccessor != null && viewAccessor != null)
             {
                 var view = controllerAccessor.GetView(controller);
-                var propertyBag = controllerAccessor.GetPropertyBag(controller);
+                var viewModel = controllerAccessor.GetViewModel(controller);
 
                 Kernel.ReleaseComponent(view);
-                Kernel.ReleaseComponent(propertyBag);
+                Kernel.ReleaseComponent(viewModel);
             }
 
             Kernel.ReleaseComponent(controller);

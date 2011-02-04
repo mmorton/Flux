@@ -10,14 +10,14 @@ namespace WickedNite.Flux.Windsor
 {
     public class ViewComponentActivator : DefaultComponentActivator
     {
-        public Type PropertyBagType { get; set; }
+        public Type ViewModelType { get; set; }
         public Type ViewType { get; set; }
 
         public ViewComponentActivator(ComponentModel model, IKernel kernel, ComponentInstanceDelegate onCreation, ComponentInstanceDelegate onDestruction)
             : base(model, kernel, onCreation, onDestruction)
         {
             ViewType = Model.Implementation;
-            PropertyBagType = Model.Implementation
+            ViewModelType = Model.Implementation
                 .GetInterfaces()
                 .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IView<>))
                 .Select(i => i.GetGenericArguments().First())
@@ -28,10 +28,10 @@ namespace WickedNite.Flux.Windsor
         {
             if (typeof(IController).IsAssignableFrom(context.Handler.Service)) return base.Instantiate(context);
 
-            var controller = Kernel.Resolve(typeof(IController<,>).MakeGenericType(ViewType, PropertyBagType));
+            var controller = Kernel.Resolve(typeof(IController<,>).MakeGenericType(ViewType, ViewModelType));
             if (controller == null) return null;
 
-            var accessor = Kernel.Resolve(typeof(ControllerAccessor<,>).MakeGenericType(ViewType, PropertyBagType)) as IControllerAccessor;
+            var accessor = Kernel.Resolve(typeof(ControllerAccessor<,>).MakeGenericType(ViewType, ViewModelType)) as IControllerAccessor;
             if (accessor == null) return null;
 
             return accessor.GetView((IController)controller);

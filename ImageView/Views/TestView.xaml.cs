@@ -19,15 +19,15 @@ namespace ImageView.Views
     /// <summary>
     /// Interaction logic for TestView.xaml
     /// </summary>
-    public partial class TestView : UserControl, IView<TestPropertyBag>
+    public partial class TestView : UserControl, IView<TestViewModel>
     {
-        public TestPropertyBag PropertyBag { get; set; }
+        public TestViewModel ViewModel { get; set; }
 
         public TestView()
         {
             InitializeComponent();
 
-            Loaded += (s, e) => DataContext = PropertyBag;
+            Loaded += (s, e) => DataContext = ViewModel;
         }
     }
 }

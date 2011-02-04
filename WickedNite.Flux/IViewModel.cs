@@ -7,7 +7,7 @@ using System.Collections;
 
 namespace WickedNite.Flux
 {
-    public interface IPropertyBag : INotifyPropertyChanged
+    public interface IViewModel : INotifyPropertyChanged
     {
         
     }

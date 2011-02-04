@@ -138,7 +138,8 @@ namespace WickedNite.Flux
                         };
                     }
                     else
-                    {                        
+                    {   
+                        // todo: make general
                         var window = AncestorOfType<Window>(frameworkEl);
                         if (window != null)
                             window.Closed += (s, e) =>

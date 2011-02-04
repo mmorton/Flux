@@ -8,11 +8,11 @@ using ImageView.PropertyBags;
 
 namespace ImageView.Controllers
 {
-    public class TestController : Controller<TestView, TestPropertyBag>
+    public class TestController : Controller<TestView, TestViewModel>
     {
         public void Go()
         {
-            PropertyBag.Name = "Gone!";
+            ViewModel.Name = "Gone!";
         }
     }
 }

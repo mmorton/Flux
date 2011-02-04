@@ -5,30 +5,30 @@ using System.Text;
 
 namespace WickedNite.Flux
 {
-    public class ControllerAccessor<TView, TPropertyBag> : IControllerAccessor
-        where TView : class, IView<TPropertyBag>
-        where TPropertyBag : class
+    public class ControllerAccessor<TView, ViewModel> : IControllerAccessor
+        where TView : class, IView<ViewModel>
+        where ViewModel : class
     {
         #region IControllerAdapter Members
 
         public IView GetView(IController instance)
         {
-            return (instance != null) ? ((IController<TView, TPropertyBag>)instance).View : null;
+            return (instance != null) ? ((IController<TView, ViewModel>)instance).View : null;
         }
 
         public void SetView(IController instance, IView value)
         {
-            if (instance != null) ((IController<TView, TPropertyBag>)instance).View = (TView)instance;
+            if (instance != null) ((IController<TView, ViewModel>)instance).View = (TView)instance;
         }
 
-        public object GetPropertyBag(IController instance)
+        public object GetViewModel(IController instance)
         {
-            return (instance != null) ? ((IController<TView, TPropertyBag>)instance).PropertyBag : null;
+            return (instance != null) ? ((IController<TView, ViewModel>)instance).ViewModel : null;
         }
 
-        public void SetPropertyBag(IController instance, object value)
+        public void SetViewModel(IController instance, object value)
         {
-            if (instance != null) ((IController<TView, TPropertyBag>)instance).PropertyBag = (TPropertyBag)instance;
+            if (instance != null) ((IController<TView, ViewModel>)instance).ViewModel = (ViewModel)instance;
         }
 
         #endregion

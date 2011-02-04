@@ -7,7 +7,7 @@ namespace WickedNite.Flux
 {
     public interface IViewAccessor
     {
-        object GetPropertyBag(IView instance);
-        void SetPropertyBag(IView instance, object value);
+        object GetViewModel(IView instance);
+        void SetViewModel(IView instance, object value);
     }
 }

@@ -37,10 +37,10 @@ namespace WickedNite.Flux.Windsor
             );
         }
 
-        protected override void RegisterPropertyBag(string name, Type contract, Type implementation)
+        protected override void RegisterViewModel(string name, Type contract, Type implementation)
         {
             if (implementation == null)
-                implementation = PropertyBagMaker.Make(contract);
+                implementation = ViewModelBuilder.Create(contract);
 
             Kernel.Register(
                 Component.For(contract)

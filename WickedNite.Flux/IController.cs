@@ -11,9 +11,9 @@ namespace WickedNite.Flux
                 
     }
 
-    public interface IController<TView, TPropertyBag> : IController where TView : IView<TPropertyBag>
+    public interface IController<TView, TViewModel> : IController where TView : IView<TViewModel>
     {
         TView View { get; set; }
-        TPropertyBag PropertyBag { get; set; }
+        TViewModel ViewModel { get; set; }
     }
 }

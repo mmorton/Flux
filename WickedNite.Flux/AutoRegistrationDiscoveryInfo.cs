@@ -9,15 +9,15 @@ namespace WickedNite.Flux
     {
         public List<Pair<Type, Type>> Controllers { get; set; }
         public List<Pair<Type, Type>> Views { get; set; } /* left = interface, right = type */
-        public List<Pair<Type, Type>> PropertyBags { get; set; } /* left = interface, right = type */
-        public List<Type> PropertyBagInterfaces { get; set; }
+        public List<Pair<Type, Type>> ViewModels { get; set; } /* left = interface, right = type */
+        public List<Type> ViewModelInterfaces { get; set; }
 
         public AutoRegistrationDiscoveryInfo()
         {
             Controllers = new List<Pair<Type, Type>>();
             Views = new List<Pair<Type, Type>>();
-            PropertyBags = new List<Pair<Type, Type>>();
-            PropertyBagInterfaces = new List<Type>();
+            ViewModels = new List<Pair<Type, Type>>();
+            ViewModelInterfaces = new List<Type>();
         }
     }
 }

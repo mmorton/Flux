@@ -8,11 +8,11 @@ using System.Windows.Input;
 
 namespace WickedNite.Flux
 {
-    public abstract class Controller<TView, TPropertyBag> : IController<TView, TPropertyBag>
-        where TView : IView<TPropertyBag>
+    public abstract class Controller<TView, TViewModel> : IController<TView, TViewModel>
+        where TView : IView<TViewModel>
     {
         public TView View { get; set; }
-        public TPropertyBag PropertyBag { get; set; }        
+        public TViewModel ViewModel { get; set; }        
     }
 
     

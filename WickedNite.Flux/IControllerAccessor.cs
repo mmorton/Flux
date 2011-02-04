@@ -10,7 +10,7 @@ namespace WickedNite.Flux
     {
         IView GetView(IController instance);
         void SetView(IController instance, IView value);
-        object GetPropertyBag(IController instance);
-        void SetPropertyBag(IController instance, object value);
+        object GetViewModel(IController instance);
+        void SetViewModel(IController instance, object value);
     }
 }

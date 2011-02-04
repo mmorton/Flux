@@ -16,8 +16,8 @@ namespace WickedNite.Flux
 
             discovery.Controllers.ForEach(p => RegisterController("controller-" + ToComponentName(p.Second), p.First, p.Second));
             discovery.Views.ForEach(p => RegisterView("view-" + ToComponentName(p.Second), p.First, p.Second));
-            discovery.PropertyBags.ForEach(p => RegisterPropertyBag("bag-" + ToComponentName(p.Second), p.First, p.Second));
-            discovery.PropertyBagInterfaces.ForEach(t => RegisterPropertyBag("bag-for-" + ToComponentName(t), t, null));
+            discovery.ViewModels.ForEach(p => RegisterViewModel("bag-" + ToComponentName(p.Second), p.First, p.Second));
+            discovery.ViewModelInterfaces.ForEach(t => RegisterViewModel("bag-for-" + ToComponentName(t), t, null));
         }
         
         #endregion
@@ -25,15 +25,15 @@ namespace WickedNite.Flux
         protected virtual AutoRegistrationDiscoveryInfo DoDiscovery(params Assembly[] assemblies)
         {
             var result = new AutoRegistrationDiscoveryInfo();
-            var propertyBagMap = new Dictionary<Type, Type>();
+            var viewModelMap = new Dictionary<Type, Type>();
             foreach (var assembly in assemblies)
             {
                 foreach (var type in assembly.GetTypes())
                 {
                     if (type.IsInterface)
                     {
-                        if (type.GetInterfaces().Any(o => typeof(IPropertyBag).Equals(o)))
-                            propertyBagMap[type] = null;
+                        if (type.GetInterfaces().Any(o => typeof(IViewModel).Equals(o)))
+                            viewModelMap[type] = null;
 
                         /* no more special interface only type handling */
                         continue;
@@ -66,24 +66,24 @@ namespace WickedNite.Flux
                         result.Views.Add(new Pair<Type, Type>(service ?? type, type));
                     }
 
-                    if (typeof(IPropertyBag).IsAssignableFrom(type))
+                    if (typeof(IViewModel).IsAssignableFrom(type))
                     {
                         var service = (
                             from o in type.GetInterfaces()
-                            where o.GetInterfaces().Any(c => typeof(IPropertyBag).Equals(c))
+                            where o.GetInterfaces().Any(c => typeof(IViewModel).Equals(c))
                             select o
                         ).FirstOrDefault();
 
-                        propertyBagMap[service ?? type] = type;
+                        viewModelMap[service ?? type] = type;
                     }
                 }
             }
 
-            foreach (var item in propertyBagMap)
+            foreach (var item in viewModelMap)
                 if (item.Value != null)
-                    result.PropertyBags.Add(new Pair<Type, Type>(item.Key, item.Value));
+                    result.ViewModels.Add(new Pair<Type, Type>(item.Key, item.Value));
                 else
-                    result.PropertyBagInterfaces.Add(item.Key);
+                    result.ViewModelInterfaces.Add(item.Key);
 
             return result;
         }
@@ -114,6 +114,6 @@ namespace WickedNite.Flux
         /// <param name="implementation">
         /// If the implementation is null it is up to the callee to either throw an error or generate an implementation.        
         /// </param>
-        protected abstract void RegisterPropertyBag(string name, Type contract, Type implementation);
+        protected abstract void RegisterViewModel(string name, Type contract, Type implementation);
     }
 }

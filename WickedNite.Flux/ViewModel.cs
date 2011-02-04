@@ -9,7 +9,7 @@ using System.Reflection.Emit;
 
 namespace WickedNite.Flux
 {
-    public abstract class PropertyBagBase : IPropertyBag
+    public abstract class ViewModelBase : IViewModel
     {
         public virtual void Notify(string p)
         {
@@ -24,29 +24,29 @@ namespace WickedNite.Flux
         #endregion
     }
 
-    public static class PropertyBagMaker
+    public static class ViewModelBuilder
     {
-        public static Type Make<TPropertyBag>()
+        public static Type Create<TViewModel>()
         {
-            return Make(typeof(TPropertyBag));
+            return Create(typeof(TViewModel));
         }
 
-        public static Type Make(Type propertyBagType)
+        public static Type Create(Type viewModelType)
         {
-            if (!propertyBagType.IsInterface)
-                throw new ArgumentException("The supplied property bag type must be an interface.");
+            if (!viewModelType.IsInterface)
+                throw new ArgumentException("The supplied view model type must be an interface.");
 
-            var typeName = "PropertyBag.Generated." + propertyBagType.Name;
+            var typeName = "ViewModel.Generated." + viewModelType.Name;
 
-            var assemblyName = new AssemblyName { Name = propertyBagType.Name + "DynAssembly", Version = new Version(1, 0, 0, 0) };
+            var assemblyName = new AssemblyName { Name = viewModelType.Name + "DynAssembly", Version = new Version(1, 0, 0, 0) };
             var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.RunAndSave);
             var moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name + ".dll");
 
-            var typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Public | TypeAttributes.Class | TypeAttributes.BeforeFieldInit, typeof(PropertyBagBase), new Type[] { propertyBagType });
-            typeBuilder.AddInterfaceImplementation(propertyBagType);
+            var typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Public | TypeAttributes.Class | TypeAttributes.BeforeFieldInit, typeof(ViewModelBase), new Type[] { viewModelType });
+            typeBuilder.AddInterfaceImplementation(viewModelType);
             typeBuilder.DefineDefaultConstructor(MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName);            
 
-            foreach (var sourceProperty in propertyBagType.GetProperties())
+            foreach (var sourceProperty in viewModelType.GetProperties())
             {
                 /* we only support properties that can be get/set */
                 if (!sourceProperty.CanRead || !sourceProperty.CanWrite)
@@ -94,7 +94,7 @@ namespace WickedNite.Flux
             ilGen.Emit(OpCodes.Stfld, fieldBuilder);
             ilGen.Emit(OpCodes.Ldarg_0);
             ilGen.Emit(OpCodes.Ldstr, propertyName);
-            ilGen.Emit(OpCodes.Callvirt, typeof(PropertyBagBase).GetMethod("Notify"));
+            ilGen.Emit(OpCodes.Callvirt, typeof(ViewModelBase).GetMethod("Notify"));
             ilGen.Emit(OpCodes.Nop);
             ilGen.Emit(OpCodes.Ret);
 

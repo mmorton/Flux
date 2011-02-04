@@ -77,9 +77,9 @@ namespace WickedNite.Flux.Windsor
             if (controllerAccessor != null && viewAccessor != null)
             {
                 var view = controllerAccessor.GetView((IController)instance);
-                var propertyBag = controllerAccessor.GetPropertyBag((IController)instance);
+                var viewModel = controllerAccessor.GetViewModel((IController)instance);
 
-                viewAccessor.SetPropertyBag(view, propertyBag);
+                viewAccessor.SetViewModel(view, viewModel);
 
                 var manager = Kernel.Resolve<IControllerAdapter>();
                 if (manager != null)
@@ -116,21 +116,21 @@ namespace WickedNite.Flux.Windsor
             model.Constructors.Clear();
             model.CustomComponentActivator = typeof(ViewComponentActivator);
 
-            var propertyBagType = model.Implementation
+            var viewModelType = model.Implementation
                 .GetInterfaces()
                 .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IView<>))
                 .Select(i => i.GetGenericArguments().First())
                 .First();
 
             var dependency = model.Dependencies
-                .Where(d => d.TargetType == propertyBagType)
+                .Where(d => d.TargetType == viewModelType)
                 .FirstOrDefault();
 
             if (dependency != null)
                 model.Dependencies.Remove(dependency);
 
             var property = model.Properties
-                .Where(p => p.Dependency.TargetType == propertyBagType)
+                .Where(p => p.Dependency.TargetType == viewModelType)
                 .FirstOrDefault();
 
             if (property != null)

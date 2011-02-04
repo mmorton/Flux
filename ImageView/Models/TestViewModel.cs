@@ -6,7 +6,7 @@ using WickedNite.Flux;
 
 namespace ImageView.PropertyBags
 {
-    public class TestPropertyBag : PropertyBagBase
+    public class TestViewModel : ViewModelBase
     {
         private string _name;
 
